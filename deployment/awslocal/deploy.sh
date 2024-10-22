@@ -20,8 +20,7 @@ awslocal lambda create-function \
     --timeout 10 \
     --zip-file fileb://lambdas/presign/lambda.zip \
     --handler handler.handler \
-    --role arn:aws:iam::000000000000:role/lambda-role \
-    --environment Variables="{STAGE=local}"
+    --role arn:aws:iam::000000000000:role/lambda-role
 
 awslocal lambda wait function-active-v2 --function-name presign
 
@@ -35,8 +34,7 @@ awslocal lambda create-function \
     --timeout 10 \
     --zip-file fileb://lambdas/list/lambda.zip \
     --handler handler.handler \
-    --role arn:aws:iam::000000000000:role/lambda-role \
-    --environment Variables="{STAGE=local}"
+    --role arn:aws:iam::000000000000:role/lambda-role
 
 awslocal lambda wait function-active-v2 --function-name list
 
@@ -52,8 +50,7 @@ awslocal lambda create-function \
     --zip-file fileb://lambdas/resize/lambda.zip \
     --handler handler.handler \
     --dead-letter-config TargetArn=arn:aws:sns:us-east-1:000000000000:failed-resize-topic \
-    --role arn:aws:iam::000000000000:role/lambda-role \
-    --environment Variables="{STAGE=local}"
+    --role arn:aws:iam::000000000000:role/lambda-role
 
 awslocal lambda wait function-active-v2 --function-name resize
 awslocal lambda put-function-event-invoke-config --function-name resize --maximum-event-age-in-seconds 3600 --maximum-retry-attempts 0

@@ -71,11 +71,17 @@ pip install -r requirements-dev.txt
 
 ## Instructions
 
+<<<<<<< Updated upstream
 You can set up and deploy the sample application on LocalStack by executing the commands in our Makefile. First, create a `.env` file using the provided `.env.example` file as a template, and include your LocalStack token in it. Then, run `make start` to initiate LocalStack on your machine. 
 
 Next, execute `make install` to install needed dependencies.
 
 After that, launch `make terraform-setup` to provision the infrastructure on LocalStack using Terraform CLI and its scripts. Alternatively, run `make awslocal-setup` to set up the infrastructure using `awslocal`, a wrapper for the AWS CLI.
+=======
+You can set up and deploy the sample application on LocalStack by executing the commands in our Makefile. First, create a `.env` file using the provided `.env.example` file as a template, and include your LocalStack token in it. Then, run `make start` to initiate LocalStack on your machine.
+
+Next, execute `make terraform-setup` to provision the infrastructure on LocalStack using Terraform CLI and its scripts. Alternatively, run `make awslocal-setup` to set up the infrastructure with the local AWS CLI.
+>>>>>>> Stashed changes
 
 If you prefer, you can also follow these step-by-step instructions for a manual deployment.
 
@@ -148,8 +154,7 @@ awslocal lambda create-function \
     --timeout 10 \
     --zip-file fileb://lambdas/presign/lambda.zip \
     --handler handler.handler \
-    --role arn:aws:iam::000000000000:role/lambda-role \
-    --environment Variables="{STAGE=local}"
+    --role arn:aws:iam::000000000000:role/lambda-role
 ```
 
 Create the function URL:
@@ -173,8 +178,7 @@ awslocal lambda create-function \
     --handler handler.handler \
     --zip-file fileb://lambdas/list/lambda.zip \
     --runtime python3.11 \
-    --role arn:aws:iam::000000000000:role/lambda-role \
-    --environment Variables="{STAGE=local}"
+    --role arn:aws:iam::000000000000:role/lambda-role
 ```
 
 Create the function URL:
@@ -204,8 +208,7 @@ awslocal lambda create-function \
     --zip-file fileb://lambdas/resize/lambda.zip \
     --handler handler.handler \
     --dead-letter-config TargetArn=arn:aws:sns:us-east-1:000000000000:failed-resize-topic \
-    --role arn:aws:iam::000000000000:role/lambda-role \
-    --environment Variables="{STAGE=local}"
+    --role arn:aws:iam::000000000000:role/lambda-role
 ```
 
 #### Connect the S3 bucket to the resizer lambda

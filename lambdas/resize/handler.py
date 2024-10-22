@@ -14,12 +14,8 @@ if typing.TYPE_CHECKING:
 MAX_DIMENSIONS = 400, 400
 """The max width and height to scale the image to."""
 
-endpoint_url = None
-if os.getenv("STAGE") == "local":
-    endpoint_url = "https://localhost.localstack.cloud:4566"
-
-s3: "S3Client" = boto3.client("s3", endpoint_url=endpoint_url)
-ssm: "SSMClient" = boto3.client("ssm", endpoint_url=endpoint_url)
+s3: "S3Client" = boto3.client("s3")
+ssm: "SSMClient" = boto3.client("ssm")
 
 
 def get_bucket_name() -> str:

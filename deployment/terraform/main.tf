@@ -10,6 +10,7 @@ terraform {
 provider "aws" {
   region                     = "us-east-1"
   skip_requesting_account_id = true
+<<<<<<< Updated upstream
 }
 
 locals {
@@ -20,6 +21,30 @@ locals {
   images_bucket               = "localstack-thumbnails-app-images"
   image_resized_bucket        = "localstack-thumbnails-app-resized"
   website_bucket              = "localstack-website"
+=======
+}
+
+resource "random_integer" "images_bucket_id" {
+  min = 0
+  max = 10000
+}
+
+resource "random_integer" "image_resized_bucket_id" {
+  min = 0
+  max = 10000
+}
+
+resource "random_integer" "website_bucket_id" {
+  min = 0
+  max = 10000
+}
+
+locals {
+  root_dir                    = "${path.module}/../.."
+  images_bucket               = "localstack-thumbnails-app-images-${random_integer.images_bucket_id.result}"
+  image_resized_bucket        = "localstack-thumbnails-app-resized-${random_integer.image_resized_bucket_id.result}"
+  website_bucket              = "localstack-website-${random_integer.website_bucket_id.result}"
+>>>>>>> Stashed changes
   failure_notifications_email = "my-email@example.com"
 }
 
@@ -87,10 +112,6 @@ resource "aws_lambda_function" "presign_lambda" {
   timeout       = 10
   role          = aws_iam_role.presign_lambda_role.arn
   source_code_hash = filebase64sha256("${local.root_dir}/lambdas/presign/lambda.zip")
-
-  environment {
-    variables = local.env_variables
-  }
 }
 
 resource "aws_lambda_function_url" "presign_lambda_function" {
@@ -131,10 +152,6 @@ resource "aws_lambda_function" "list_lambda" {
   timeout       = 10
   role          = aws_iam_role.list_lambda_role.arn
   source_code_hash = filebase64sha256("${local.root_dir}/lambdas/list/lambda.zip")
-
-  environment {
-    variables = local.env_variables
-  }
 }
 
 resource "aws_lambda_function_url" "list_lambda_function" {
@@ -186,10 +203,6 @@ resource "aws_lambda_function" "resize_lambda" {
   runtime       = "python3.11"
   role          = aws_iam_role.resize_lambda_role.arn
   source_code_hash = filebase64sha256("${local.root_dir}/lambdas/resize/lambda.zip")
-
-  environment {
-    variables = local.env_variables
-  }
 
   dead_letter_config {
     target_arn = aws_sns_topic.failure_notifications.arn
